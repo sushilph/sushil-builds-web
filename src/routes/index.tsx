@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
+import { Github, Linkedin, Twitter, Mail, Send, Check, User, AtSign, MessageSquare } from "lucide-react";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -342,8 +344,27 @@ function Portfolio() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="relative px-6 py-24">
-        <div className="mx-auto max-w-3xl">
+      <section id="contact" className="relative overflow-hidden px-6 py-24">
+        {/* Animated background */}
+        <div
+          className="pointer-events-none absolute -top-32 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full opacity-30 blur-3xl"
+          style={{
+            background: "radial-gradient(circle, oklch(0.85 0.22 145 / 0.5), transparent 70%)",
+            animation: "blob-float 20s ease-in-out infinite",
+          }}
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute -bottom-32 right-0 h-[28rem] w-[28rem] rounded-full opacity-25 blur-3xl"
+          style={{
+            background: "radial-gradient(circle, oklch(0.75 0.18 195 / 0.5), transparent 70%)",
+            animation: "blob-float 26s ease-in-out infinite reverse",
+          }}
+          aria-hidden
+        />
+        <div className="absolute inset-0 grid-bg opacity-10" style={{ animation: "grid-drift 40s linear infinite" }} />
+
+        <div className="relative mx-auto max-w-3xl">
           <div className="reveal mb-12 text-center">
             <p className="font-display text-xs uppercase tracking-[0.3em] text-primary">04 · Contact</p>
             <h2 className="mt-4 text-4xl font-extrabold md:text-5xl">
@@ -354,80 +375,115 @@ function Portfolio() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="reveal glass space-y-5 rounded-2xl p-8">
+          <form onSubmit={handleSubmit} className="reveal glass space-y-5 rounded-2xl p-8 shadow-[var(--shadow-card)]">
             <div className="grid gap-5 md:grid-cols-2">
               <label className="block">
-                <span className="mb-2 block font-display text-xs uppercase tracking-wider text-muted-foreground">
-                  Name
+                <span className="mb-2 flex items-center gap-2 font-display text-xs uppercase tracking-wider text-muted-foreground">
+                  <User size={12} /> Name
                 </span>
                 <input
                   required
                   type="text"
-                  className="w-full rounded-md border border-border bg-input/50 px-4 py-3 text-foreground outline-none transition-colors focus:border-primary"
+                  placeholder="Your name"
+                  className="w-full rounded-md border border-border bg-input/40 px-4 py-3 text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-primary focus:bg-input/70 focus:shadow-[0_0_0_3px_oklch(0.85_0.22_145/0.15)]"
                 />
               </label>
               <label className="block">
-                <span className="mb-2 block font-display text-xs uppercase tracking-wider text-muted-foreground">
-                  Email
+                <span className="mb-2 flex items-center gap-2 font-display text-xs uppercase tracking-wider text-muted-foreground">
+                  <AtSign size={12} /> Email
                 </span>
                 <input
                   required
                   type="email"
-                  className="w-full rounded-md border border-border bg-input/50 px-4 py-3 text-foreground outline-none transition-colors focus:border-primary"
+                  placeholder="you@domain.com"
+                  className="w-full rounded-md border border-border bg-input/40 px-4 py-3 text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-primary focus:bg-input/70 focus:shadow-[0_0_0_3px_oklch(0.85_0.22_145/0.15)]"
                 />
               </label>
             </div>
             <label className="block">
-              <span className="mb-2 block font-display text-xs uppercase tracking-wider text-muted-foreground">
-                Message
+              <span className="mb-2 flex items-center gap-2 font-display text-xs uppercase tracking-wider text-muted-foreground">
+                <MessageSquare size={12} /> Message
               </span>
               <textarea
                 required
                 rows={5}
-                className="w-full resize-none rounded-md border border-border bg-input/50 px-4 py-3 text-foreground outline-none transition-colors focus:border-primary"
+                placeholder="Tell me about your project..."
+                className="w-full resize-none rounded-md border border-border bg-input/40 px-4 py-3 text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-primary focus:bg-input/70 focus:shadow-[0_0_0_3px_oklch(0.85_0.22_145/0.15)]"
               />
             </label>
+
             <button
               type="submit"
-              className="w-full rounded-md bg-primary px-6 py-3.5 font-display text-sm font-semibold text-primary-foreground transition-all hover:shadow-[var(--shadow-neon)]"
+              disabled={sent}
+              className="group relative w-full overflow-hidden rounded-md bg-primary px-6 py-4 font-display text-sm font-semibold text-primary-foreground transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[var(--shadow-neon)] active:translate-y-0 disabled:opacity-90"
             >
-              {sent ? "Message received ✓" : "Send message →"}
+              {/* Sweep shine */}
+              <span
+                className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full"
+                aria-hidden
+              />
+              <span className="relative z-10 inline-flex items-center justify-center gap-2">
+                {sent ? (
+                  <>
+                    <Check size={16} className="animate-[fade-in_0.3s_ease-out]" />
+                    Message received
+                  </>
+                ) : (
+                  <>
+                    Send Message
+                    <Send
+                      size={16}
+                      className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-rotate-12"
+                    />
+                  </>
+                )}
+              </span>
             </button>
-            <p className="text-center text-sm text-muted-foreground">
-              or reach me directly at{" "}
-              <a href="mailto:sushilphulara@gmail.com" className="text-primary hover:underline">
+
+            <div className="flex flex-col items-center gap-4 pt-4">
+              <a
+                href="mailto:sushilphulara@gmail.com"
+                className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
+              >
+                <Mail size={14} />
                 sushilphulara@gmail.com
               </a>
-            </p>
+
+              <div className="flex items-center gap-3">
+                {[
+                  { icon: Github, label: "GitHub", href: "https://github.com" },
+                  { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com" },
+                  { icon: Twitter, label: "Twitter", href: "https://twitter.com" },
+                ].map(({ icon: Icon, label, href }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={label}
+                    className="group flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card/50 text-muted-foreground transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-primary-foreground hover:shadow-[var(--shadow-neon)]"
+                  >
+                    <Icon size={18} className="transition-transform duration-300 group-hover:scale-110" />
+                  </a>
+                ))}
+              </div>
+            </div>
           </form>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border px-6 py-10">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 md:flex-row">
+      <footer className="relative border-t border-border px-6 py-10">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 md:flex-row">
           <p className="font-display text-sm text-muted-foreground">
             © {new Date().getFullYear()} Sushil Phulara. Built with precision.
           </p>
-          <div className="flex gap-6">
-            {[
-              { label: "GitHub", href: "https://github.com" },
-              { label: "LinkedIn", href: "https://linkedin.com" },
-              { label: "Twitter", href: "https://twitter.com" },
-            ].map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noreferrer"
-                className="font-display text-sm text-muted-foreground transition-colors hover:text-primary"
-              >
-                {s.label}
-              </a>
-            ))}
-          </div>
+          <p className="font-display text-xs uppercase tracking-[0.2em] text-muted-foreground/60">
+            Quality is a system, not a step.
+          </p>
         </div>
       </footer>
+
     </div>
   );
 }
