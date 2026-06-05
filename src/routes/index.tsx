@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
+import { Github, Linkedin, Twitter, Mail, Send, Check, User, AtSign, MessageSquare } from "lucide-react";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
