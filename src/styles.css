@@ -34,6 +34,8 @@
   --animate-fade-in: fade-in 0.8s ease-out forwards;
   --animate-glow-pulse: glow-pulse 2.4s ease-in-out infinite;
   --animate-grid-drift: grid-drift 30s linear infinite;
+  --animate-blob: blob-float 18s ease-in-out infinite;
+  --animate-caret: caret-blink 1s steps(2, start) infinite;
 
   @keyframes fade-in {
     from { opacity: 0; transform: translateY(24px); }
@@ -47,6 +49,40 @@
     from { background-position: 0 0; }
     to { background-position: 60px 60px; }
   }
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes blob-float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(40px, -30px) scale(1.1); }
+    66% { transform: translate(-30px, 20px) scale(0.95); }
+  }
+  @keyframes caret-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+}
+
+@utility animated-gradient {
+  background: linear-gradient(
+    120deg,
+    oklch(0.13 0.02 240) 0%,
+    oklch(0.18 0.06 160) 25%,
+    oklch(0.15 0.05 200) 50%,
+    oklch(0.18 0.06 280) 75%,
+    oklch(0.13 0.02 240) 100%
+  );
+  background-size: 300% 300%;
+  animation: gradient-shift 16s ease-in-out infinite;
+}
+
+@utility caret {
+  display: inline-block;
+  width: 0.08em;
+  margin-left: 0.08em;
+  background: var(--color-primary);
+  animation: caret-blink 1s steps(2, start) infinite;
 }
 
 :root {
