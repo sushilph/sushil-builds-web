@@ -79,8 +79,39 @@ const navLinks = [
   { href: "#contact", label: "Contact" },
 ];
 
+const ROLES = ["QA Engineer", "Cybersecurity Practitioner", "Automation Architect"];
+
+function useTypewriter(words: string[], typeSpeed = 75, deleteSpeed = 40, pause = 1600) {
+  const [text, setText] = useState("");
+  const [wordIdx, setWordIdx] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = words[wordIdx];
+    if (!deleting && text === current) {
+      const t = setTimeout(() => setDeleting(true), pause);
+      return () => clearTimeout(t);
+    }
+    if (deleting && text === "") {
+      setDeleting(false);
+      setWordIdx((i) => (i + 1) % words.length);
+      return;
+    }
+    const t = setTimeout(
+      () => {
+        setText(deleting ? current.slice(0, text.length - 1) : current.slice(0, text.length + 1));
+      },
+      deleting ? deleteSpeed : typeSpeed,
+    );
+    return () => clearTimeout(t);
+  }, [text, deleting, wordIdx, words, typeSpeed, deleteSpeed, pause]);
+
+  return text;
+}
+
 function Portfolio() {
   const [sent, setSent] = useState(false);
+  const typed = useTypewriter(ROLES);
 
   useEffect(() => {
     const els = document.querySelectorAll(".reveal");
@@ -139,43 +170,71 @@ function Portfolio() {
       {/* Hero */}
       <section
         id="top"
-        className="relative flex min-h-screen items-center justify-center px-6 pt-24"
-        style={{ background: "var(--gradient-hero)" }}
+        className="animated-gradient relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-24"
       >
-        <div className="absolute inset-0 grid-bg opacity-40" style={{ animation: "grid-drift 30s linear infinite" }} />
+        {/* Floating gradient blobs */}
+        <div
+          className="pointer-events-none absolute -top-32 -left-32 h-[28rem] w-[28rem] rounded-full opacity-40 blur-3xl"
+          style={{
+            background: "radial-gradient(circle, oklch(0.85 0.22 145 / 0.6), transparent 70%)",
+            animation: "blob-float 18s ease-in-out infinite",
+          }}
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute -bottom-32 -right-32 h-[32rem] w-[32rem] rounded-full opacity-40 blur-3xl"
+          style={{
+            background: "radial-gradient(circle, oklch(0.75 0.18 195 / 0.6), transparent 70%)",
+            animation: "blob-float 22s ease-in-out infinite reverse",
+          }}
+          aria-hidden
+        />
+
+        {/* Grid overlay */}
+        <div className="absolute inset-0 grid-bg opacity-30" style={{ animation: "grid-drift 30s linear infinite" }} />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
 
         <div className="relative z-10 mx-auto max-w-4xl text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 font-display text-xs text-primary">
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 font-display text-xs text-primary backdrop-blur-sm">
             <span className="h-2 w-2 animate-pulse rounded-full bg-primary" />
             Available for new engagements
           </div>
-          <h1 className="font-display text-5xl font-extrabold leading-[1.05] tracking-tighter md:text-7xl lg:text-8xl">
-            Sushil
-            <br />
-            <span className="text-gradient">Phulara</span>
+
+          <h1 className="font-display text-6xl font-extrabold leading-[0.95] tracking-tighter md:text-8xl lg:text-9xl">
+            <span className="block">Sushil</span>
+            <span className="block text-gradient">Phulara</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl">
-            QA Automation Engineer · Cybersecurity Practitioner.
-            <br />
-            <span className="text-foreground/80">Turning ideas into resilient, fully automated digital experiences.</span>
+
+          {/* Typing subtitle */}
+          <div className="mt-8 flex min-h-[2.5rem] items-center justify-center font-display text-xl text-foreground md:text-2xl">
+            <span className="text-muted-foreground">&gt;&nbsp;</span>
+            <span className="text-primary">{typed}</span>
+            <span className="caret ml-1 h-6 md:h-7" aria-hidden />
+          </div>
+
+          <p className="mx-auto mt-6 max-w-2xl text-base text-muted-foreground md:text-lg">
+            I build resilient end-to-end automation pipelines with Playwright and Postman —
+            with a security-first mindset that catches what others miss.
           </p>
+
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <a
               href="#projects"
-              className="group rounded-md bg-primary px-6 py-3 font-display text-sm font-semibold text-primary-foreground transition-all hover:shadow-[var(--shadow-neon)]"
+              className="group relative overflow-hidden rounded-md bg-primary px-7 py-3.5 font-display text-sm font-semibold text-primary-foreground transition-all hover:shadow-[var(--shadow-neon)]"
             >
-              View my work →
+              <span className="relative z-10">View My Work →</span>
             </a>
             <a
               href="#contact"
-              className="rounded-md border border-border bg-card/50 px-6 py-3 font-display text-sm font-semibold text-foreground backdrop-blur-sm transition-colors hover:border-primary/50"
+              className="rounded-md border border-primary/40 bg-card/30 px-7 py-3.5 font-display text-sm font-semibold text-foreground backdrop-blur-sm transition-all hover:border-primary hover:bg-primary/10 hover:text-primary"
             >
-              Get in touch
+              Contact Me
             </a>
           </div>
         </div>
       </section>
+
+
 
       {/* About */}
       <section id="about" className="relative px-6 py-24">
