@@ -1,7 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
-import { Github, Linkedin, Twitter, Mail, Send, Check, User, AtSign, MessageSquare } from "lucide-react";
-
+import {
+  Github,
+  Linkedin,
+  Twitter,
+  Mail,
+  Send,
+  Check,
+  User,
+  AtSign,
+  MessageSquare,
+} from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -41,11 +50,21 @@ const skills = [
   },
   {
     title: "API & Backend",
-    items: ["Postman (JS scripting)", "REST API verification", "SQL · Joins · Subqueries", "NoSQL · JSON validation"],
+    items: [
+      "Postman (JS scripting)",
+      "REST API verification",
+      "SQL · Joins · Subqueries",
+      "NoSQL · JSON validation",
+    ],
   },
   {
     title: "Methodologies",
-    items: ["Shift-Left Testing", "Regression & Functional", "Defect Lifecycle", "Spatial Data Validation"],
+    items: [
+      "Shift-Left Testing",
+      "Regression & Functional",
+      "Defect Lifecycle",
+      "Spatial Data Validation",
+    ],
   },
   {
     title: "Observability & PM",
@@ -82,6 +101,7 @@ const navLinks = [
 ];
 
 const ROLES = ["QA Engineer", "Cybersecurity Practitioner", "Automation Architect"];
+const profileImage = "/profile.jpg";
 
 function useTypewriter(words: string[], typeSpeed = 75, deleteSpeed = 40, pause = 1600) {
   const [text, setText] = useState("");
@@ -113,6 +133,7 @@ function useTypewriter(words: string[], typeSpeed = 75, deleteSpeed = 40, pause 
 
 function Portfolio() {
   const [sent, setSent] = useState(false);
+  const [profileImageFailed, setProfileImageFailed] = useState(false);
   const typed = useTypewriter(ROLES);
 
   useEffect(() => {
@@ -160,12 +181,39 @@ function Portfolio() {
               </li>
             ))}
           </ul>
-          <a
-            href="#contact"
-            className="rounded-md border border-primary/40 bg-primary/10 px-4 py-2 font-display text-xs font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground"
-          >
-            Hire me
-          </a>
+          <div className="flex items-center gap-3">
+            <a
+              href="#about"
+              aria-label="View Sushil Phulara profile"
+              className="group relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-primary/50 bg-primary/10 shadow-[0_0_24px_oklch(0.85_0.22_145/0.18)] transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-[var(--shadow-neon)]"
+            >
+              <User
+                size={18}
+                className="absolute text-primary opacity-0 transition-all duration-300 group-hover:scale-110 group-hover:opacity-100"
+                aria-hidden
+              />
+              {profileImageFailed ? (
+                <User
+                  size={18}
+                  className="text-primary transition-transform group-hover:scale-110"
+                  aria-hidden
+                />
+              ) : (
+                <img
+                  src={profileImage}
+                  alt="Sushil Phulara"
+                  className="h-full w-full object-cover transition-all duration-300 ease-out group-hover:scale-125 group-hover:rotate-6 group-hover:opacity-0"
+                  onError={() => setProfileImageFailed(true)}
+                />
+              )}
+            </a>
+            <a
+              href="#contact"
+              className="rounded-md border border-primary/40 bg-primary/10 px-4 py-2 font-display text-xs font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground"
+            >
+              Hire me
+            </a>
+          </div>
         </nav>
       </header>
 
@@ -193,7 +241,10 @@ function Portfolio() {
         />
 
         {/* Grid overlay */}
-        <div className="absolute inset-0 grid-bg opacity-30" style={{ animation: "grid-drift 30s linear infinite" }} />
+        <div
+          className="absolute inset-0 grid-bg opacity-30"
+          style={{ animation: "grid-drift 30s linear infinite" }}
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
 
         <div className="relative z-10 mx-auto max-w-4xl text-center">
@@ -215,8 +266,8 @@ function Portfolio() {
           </div>
 
           <p className="mx-auto mt-6 max-w-2xl text-base text-muted-foreground md:text-lg">
-            I build resilient end-to-end automation pipelines with Playwright and Postman —
-            with a security-first mindset that catches what others miss.
+            I build resilient end-to-end automation pipelines with Playwright and Postman — with a
+            security-first mindset that catches what others miss.
           </p>
 
           <div className="mt-10 flex flex-wrap justify-center gap-4">
@@ -236,8 +287,6 @@ function Portfolio() {
         </div>
       </section>
 
-
-
       {/* About */}
       <section id="about" className="relative px-6 py-24">
         <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-[1fr_1.5fr] md:gap-16">
@@ -249,18 +298,17 @@ function Portfolio() {
           </div>
           <div className="reveal space-y-5 text-lg leading-relaxed text-muted-foreground">
             <p>
-              I'm a QA Automation Engineer with a passion for building robust end-to-end automation pipelines using{" "}
-              <span className="text-foreground">Playwright</span> and <span className="text-foreground">Postman</span>,
-              with a strong focus on backend data validation and production observability.
+              I'm a QA Automation Engineer with a passion for building robust end-to-end automation
+              pipelines using <span className="text-foreground">Playwright</span> and{" "}
+              <span className="text-foreground">Postman</span>, with a strong focus on backend data
+              validation and production observability.
             </p>
             <p>
-              My approach is <span className="text-primary">shift-left</span> by default — pushing verification into
-              every layer of the stack so bugs surface in CI, not in customer dashboards. I treat test code with the
-              same rigor as production code.
+              My approach is <span className="text-primary">shift-left</span> by default — pushing
+              verification into every layer of the stack so bugs surface in CI, not in customer
+              dashboards. I treat test code with the same rigor as production code.
             </p>
-            <p>
-              Cybersecurity-minded throughout: I look for the failure modes others miss.
-            </p>
+            <p>Cybersecurity-minded throughout: I look for the failure modes others miss.</p>
           </div>
         </div>
       </section>
@@ -300,7 +348,10 @@ function Portfolio() {
         <div className="mx-auto max-w-6xl">
           <div className="reveal mb-14 flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="font-display text-xs uppercase tracking-[0.3em] text-primary"> Selected work</p>
+              <p className="font-display text-xs uppercase tracking-[0.3em] text-primary">
+                {" "}
+                Selected work
+              </p>
               <h2 className="mt-4 text-4xl font-extrabold md:text-5xl">Featured projects</h2>
             </div>
             <p className="max-w-md text-muted-foreground">
@@ -320,7 +371,9 @@ function Portfolio() {
                 />
                 <div className="relative">
                   <h3 className="mb-3 font-display text-xl font-bold leading-tight">{p.name}</h3>
-                  <p className="mb-6 text-sm leading-relaxed text-muted-foreground">{p.description}</p>
+                  <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
+                    {p.description}
+                  </p>
                   <div className="flex flex-wrap gap-2">
                     {p.tech.map((t) => (
                       <span
@@ -357,7 +410,10 @@ function Portfolio() {
           }}
           aria-hidden
         />
-        <div className="absolute inset-0 grid-bg opacity-10" style={{ animation: "grid-drift 40s linear infinite" }} />
+        <div
+          className="absolute inset-0 grid-bg opacity-10"
+          style={{ animation: "grid-drift 40s linear infinite" }}
+        />
 
         <div className="relative mx-auto max-w-3xl">
           <div className="reveal mb-12 text-center">
@@ -366,11 +422,15 @@ function Portfolio() {
               Let's <span className="text-gradient">ship quality</span> together
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-              Have a system that needs hardening? An automation suite to architect? I'd love to hear about it.
+              Have a system that needs hardening? An automation suite to architect? I'd love to hear
+              about it.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="reveal glass space-y-5 rounded-2xl p-8 shadow-[var(--shadow-card)]">
+          <form
+            onSubmit={handleSubmit}
+            className="reveal glass space-y-5 rounded-2xl p-8 shadow-[var(--shadow-card)]"
+          >
             <div className="grid gap-5 md:grid-cols-2">
               <label className="block">
                 <span className="mb-2 flex items-center gap-2 font-display text-xs uppercase tracking-wider text-muted-foreground">
@@ -458,7 +518,10 @@ function Portfolio() {
                     aria-label={label}
                     className="group flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card/50 text-muted-foreground transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:bg-primary hover:text-primary-foreground hover:shadow-[var(--shadow-neon)]"
                   >
-                    <Icon size={18} className="transition-transform duration-300 group-hover:scale-110" />
+                    <Icon
+                      size={18}
+                      className="transition-transform duration-300 group-hover:scale-110"
+                    />
                   </a>
                 ))}
               </div>
@@ -478,7 +541,6 @@ function Portfolio() {
           </p>
         </div>
       </footer>
-
     </div>
   );
 }
